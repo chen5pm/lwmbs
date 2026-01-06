@@ -261,7 +261,8 @@ jobs:
 
       - name: Install Perl Time::Piece & fix compile params
         run: |
-          yum install -y perl-Time-Piece
+          yum install -y perl-CPAN
+          cpan Time::Piece
           
           # 验证模块安装
           perl -e 'use Time::Piece; print "Time::Piece installed successfully\n";' || {
