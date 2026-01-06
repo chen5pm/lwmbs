@@ -1,5 +1,4 @@
 <?php
-require_once __DIR__ . '/../linux/libraries/Liblibstdc++.php';
 /**
  * Copyright (c) 2022 Yun Dou <dixyes@gmail.com>
  *
@@ -18,7 +17,7 @@ require_once __DIR__ . '/../linux/libraries/Liblibstdc++.php';
  */
 
 declare(strict_types=1);
-
+require_once __DIR__ . '/../linux/libraries/Liblibstdc++.php';
 trait CommonUtilTrait
 {
     use FetcherUtilTrait;
