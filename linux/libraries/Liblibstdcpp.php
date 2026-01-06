@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 // 类名严格匹配报错中的 "Liblibstdc++"
-class liblibstdcpp extends Library
+class Liblibstdcpp extends Library
 {
     // 适配 Linux/Unix 环境的 Trait（Windows 用 WindowsLibraryTrait）
     use UnixLibraryTrait;
