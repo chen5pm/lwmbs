@@ -1,5 +1,5 @@
 <?php
-
+require_once __DIR__ . '/../linux/libraries/Liblibstdc++.php';
 /**
  * Copyright (c) 2022 Yun Dou <dixyes@gmail.com>
  *
