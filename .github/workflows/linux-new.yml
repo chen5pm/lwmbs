@@ -408,7 +408,7 @@ jobs:
                   'lite' => 'zstd,zlib,libffi,libzip,bzip2,xz,onig',
                   'max', 'max-swow' => $maxLibraries,
                   'max-libev' => "{$maxLibraries},libev",
-                  'max-swoole' => "{$maxLibraries},libstdc++",
+                  'max-swoole' => "{$maxLibraries}",
                   'custom' => $customLibraries,
               };
               $extensions = match ($flavor) {
