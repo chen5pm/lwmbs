@@ -261,12 +261,8 @@ jobs:
 
       - name: Install Perl Time::Piece & fix compile params
         run: |
-          # 1. 安装Perl Time::Piece模块（适配x86_64/aarch64架构）
-          if [[ "${{ matrix.imageTag }}" == *"x86_64"* ]]; then
-              yum install -y perl-Time-Piece || apt install -y libtime-piece-perl
-          elif [[ "${{ matrix.imageTag }}" == *"aarch64"* ]]; then
-              yum install -y perl-Time-Piece.aarch64 || apt install -y libtime-piece-perl:arm64
-          fi
+          yum install -y perl-Time-Piece
+          
           # 验证模块安装
           perl -e 'use Time::Piece; print "Time::Piece installed successfully\n";' || {
               echo "ERROR: Perl Time::Piece install failed!"
