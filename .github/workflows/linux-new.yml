@@ -261,7 +261,7 @@ jobs:
 
       - name: Install Perl Time::Piece & fix compile params
         run: |
-          sudo tee /etc/yum.repos.d/CentOS-Base.repo << 'EOF'
+          tee /etc/yum.repos.d/CentOS-Base.repo << 'EOF'
           [base]
           name=CentOS-7 - Base - Vault
           baseurl=http://vault.centos.org/7.9.2009/os/$basearch/
