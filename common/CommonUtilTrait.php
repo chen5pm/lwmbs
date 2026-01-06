@@ -266,11 +266,6 @@ trait CommonUtilTrait
         }
 
         foreach ($libNames as $name) {
-            $name = str_replace(
-                ['++'],  // 要替换的特殊字符
-                ['pp'], // 替换后的合法字符
-                $name
-            );
             $lib = new ("Lib$name")($config);
             $config->addLib($lib);
         }
