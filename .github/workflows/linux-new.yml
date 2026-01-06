@@ -258,6 +258,39 @@ jobs:
         shell: bash
         run: |
           cp -r /opt/nodejs/* /node20217
+
+      - name: Install Perl Time::Piece & fix compile params
+        run: |
+          # 1. 安装Perl Time::Piece模块（适配x86_64/aarch64架构）
+          if [[ "${{ matrix.imageTag }}" == *"x86_64"* ]]; then
+              yum install -y perl-Time-Piece || apt install -y libtime-piece-perl
+          elif [[ "${{ matrix.imageTag }}" == *"aarch64"* ]]; then
+              yum install -y perl-Time-Piece.aarch64 || apt install -y libtime-piece-perl:arm64
+          fi
+          # 验证模块安装
+          perl -e 'use Time::Piece; print "Time::Piece installed successfully\n";' || {
+              echo "ERROR: Perl Time::Piece install failed!"
+              exit 1
+          }
+
+          # 2. 修正LWMBS_CC/LWMBS_CXX编译参数（移除重复-static、修复头文件路径）
+          # 先解析matrix中的arch/libc（根据你的imageTag格式适配，示例：linux-glibc-x86_64）
+          IMAGE_TAG="${{ matrix.imageTag }}"
+          ARCH=$(echo $IMAGE_TAG | awk -F'-' '{print $3}')
+          LIBC=$(echo $IMAGE_TAG | awk -F'-' '{print $2}')
+          
+          # 设置静态编译参数（无重复-static、有效头文件路径）
+          if [[ "$LIBC" == "glibc" ]]; then
+              export LWMBS_CC="${ARCH}-linux-gnu-gcc -static-libgcc -idirafter /usr/include"
+              export LWMBS_CXX="${ARCH}-linux-gnu-g++ -static-libgcc -idirafter /usr/include"
+          elif [[ "$LIBC" == "musl" ]]; then
+              export LWMBS_CC="${ARCH}-linux-musl-gcc -static-libgcc -idirafter /usr/include"
+              export LWMBS_CXX="${ARCH}-linux-musl-g++ -static-libgcc -idirafter /usr/include"
+          fi
+          
+          # 将修正后的CC/CXX写入环境变量（供后续编译使用）
+          echo "LWMBS_CC=${LWMBS_CC}" >> $GITHUB_ENV
+          echo "LWMBS_CXX=${LWMBS_CXX}" >> $GITHUB_ENV
           
       - name: Restore sources
         uses: actions/cache/restore@v4
